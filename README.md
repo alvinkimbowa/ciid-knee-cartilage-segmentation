@@ -1,1 +1,1 @@
-# ciid-knee-cartilage-segmentation
+# Machine Learning-Based Knee Cartilage Segmentation for Point of Care Ultrasound (POCUS)
