@@ -1,0 +1,7 @@
+numpy
+pandas
+medpy
+matplotlib
+keras-ocr
+openpyxl
+opencv-python
