@@ -5,7 +5,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from tqdm import tqdm
-
 from utils.remove_text_from_image import remove_text
 
 
@@ -47,13 +46,13 @@ def clean_images(image_folder, dst_image_folder, mask_folder=None, dst_mask_fold
     if mask_folder and not os.path.isdir(dst_mask_folder):
         os.makedirs(dst_mask_folder)
 
-    for img_path in tqdm(img_paths):
+    for i,img_path in enumerate(tqdm(img_paths)):
         image_save_fn = os.path.basename(img_path)
         image_save_path = f'{dst_image_folder}/{image_save_fn}'
         
         # Automatically obtain the corresponding mask
         mask = [msk for msk in mask_paths if image_save_fn.split('.')[0] in msk][0]
-        mask_save_fn = image_save_fn.replace('.', '_mask.')
+        mask_save_fn = image_save_fn
         mask_save_path = f'{dst_mask_folder}/{mask_save_fn}'
         
         # Skip those images that were already cleaned
@@ -65,7 +64,8 @@ def clean_images(image_folder, dst_image_folder, mask_folder=None, dst_mask_fold
         image = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
         mask = cv2.imread(mask, cv2.IMREAD_GRAYSCALE)
         
-        image, mask = clean_image(image, mask)
+        if not "rutgers_health" in image_folder:
+            image, mask = clean_image(image, mask)
 
         cv2.imwrite(image_save_path, image)
         cv2.imwrite(mask_save_path, mask)
@@ -74,22 +74,12 @@ def clean_images(image_folder, dst_image_folder, mask_folder=None, dst_mask_fold
 
 
 if __name__ == "__main__":
-    folders = [
-        # '1_Images_segmentations_matt', # Need to convert roi to segmentation masks
-        '2_Control_Cartilage_Images_Segmentations_Ilker',
-        '3_ACL_Cartilage_Images_Segmentations_Ilker', # Already clean
-        # '4_Knee_Manual_Segmented_Images',
-        '5.1_clarius_auto_msu_parmar_segmentations',
-        '5.2_clarius_std_msu_parmar_segmentations',
-        '5.3_ge_auto_msu_parmar_segmentations',
-        '5.4_ge_std_msu_parmar_segmentations',
-        'exteded field of view prajna', # To look into how to use this
-        'Other anatomy',
-    ]
-
     raw_dataset_folder = "../../Datasets/raw_datasets"
-    ai_ready_dataset_folder = "../../Datasets/ai_ready_datasets_inpainted"
-    for folder in folders:
+    ai_ready_dataset_folder = "../../Datasets/ai_ready_datasets"
+    datasets = ["msu", "rutgers"]
+    for folder in os.listdir(raw_dataset_folder):
+        if folder.split('_')[0] not in datasets:
+            continue
         print("folder: ", folder)
         image_folder = os.path.join(raw_dataset_folder, folder, "images")
         mask_folder = os.path.join(raw_dataset_folder, folder, "masks")
