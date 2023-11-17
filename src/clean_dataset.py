@@ -48,6 +48,7 @@ def clean_images(image_folder, dst_image_folder, mask_folder=None, dst_mask_fold
 
     for i,img_path in enumerate(tqdm(img_paths)):
         image_save_fn = os.path.basename(img_path)
+        image_save_fn = image_save_fn.replace(".tif", ".png")
         image_save_path = f'{dst_image_folder}/{image_save_fn}'
         
         # Automatically obtain the corresponding mask
@@ -75,7 +76,7 @@ def clean_images(image_folder, dst_image_folder, mask_folder=None, dst_mask_fold
 
 if __name__ == "__main__":
     raw_dataset_folder = "../../Datasets/raw_datasets"
-    ai_ready_dataset_folder = "../../Datasets/ai_ready_datasets"
+    ai_ready_dataset_folder = "../../Datasets/ai_ready_datasets/separate"
     datasets = ["msu", "rutgers"]
     for folder in os.listdir(raw_dataset_folder):
         if folder.split('_')[0] not in datasets:
