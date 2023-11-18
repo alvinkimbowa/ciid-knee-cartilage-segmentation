@@ -1,3 +1,8 @@
+src/state_of_the_art_models/nnUNetv2/nnUNet_raw/
+src/state_of_the_art_models/nnUNetv2/nnUNet_results/
+src/state_of_the_art_models/nnUNetv2/nnUNet_preprocessed/
+src/state_of_the_art_models/nnUNetv2/nnUNet_post_processed/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
